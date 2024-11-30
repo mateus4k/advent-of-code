@@ -1,12 +1,14 @@
 # Advent of Code 2023 (Rust)
 
-Create new day solution:
+https://adventofcode.com/2023
+
+## Create new day solution:
 
 ```sh
 ./cli.sh create
 ```
 
-Run solution:
+## Run solution:
 
 ```sh
 cd 07-camel-cards/rust
