@@ -5,4 +5,4 @@ if [ -z "$1" ]; then
     exit 1
 fi
 
-cp -r "templates" "$1"
+cp -r "template" "$1"
