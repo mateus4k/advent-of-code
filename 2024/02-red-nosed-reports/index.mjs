@@ -4,61 +4,47 @@ import { dirname, join } from 'node:path';
 const currentDir = dirname(new URL(import.meta.url).pathname);
 
 function main() {
-    const input = readFileSync(join(currentDir, './test.txt')).toString();
+    const input = readFileSync(join(currentDir, './input.txt')).toString();
 
     console.log('Part 1: ', part1(input));
     console.log('Part 2: ', part2(input));
 }
 
+function isSafe(levels) {
+    const diffs = levels.slice(1).map((level, index) => level - levels[index]);
+    return diffs.every((diff) => diff >= 1 && diff <= 3) || diffs.every((diff) => diff <= -1 && diff >= -3);
+}
+
 function part1(input) {
-    let safeReportsCount = 0;
+    let count = 0;
 
     for (const report of input.split('\n')) {
-        let lastNumber;
-        let isIncreasing = false;
-        let isDecreasing = false;
-        let isSafe = true;
-
-        for (let level of report.split(' ')) {
-            level = Number(level);
-
-            if (typeof lastNumber === 'undefined') {
-                lastNumber = level;
-                continue;
-            }
-
-            const diffFromLastNumber = Math.abs(lastNumber - level);
-            if (lastNumber === level || diffFromLastNumber < 1 || diffFromLastNumber > 3) {
-                isSafe = false;
-                continue;
-            }
-
-            if (lastNumber > level) {
-                isDecreasing = true;
-            }
-
-            if (lastNumber < level) {
-                isIncreasing = true;
-            }
-
-            lastNumber = level;
-        }
-
-        // Levels cannot increase and decrease at the same time.
-        if (isDecreasing && isIncreasing) {
-            isSafe = false;
-        }
-
-        if (isSafe) {
-            safeReportsCount++;
+        const levels = report.split(' ').map(Number);
+        if (isSafe(levels)) {
+            count++;
         }
     }
 
-    return safeReportsCount;
+    return count;
 }
 
 function part2(input) {
-    return;
+    let count = 0;
+
+    for (const report of input.split('\n')) {
+        const levels = report.split(' ').map(Number);
+
+        for (const [index] of levels.entries()) {
+            const newLevels = [...levels.slice(0, index), ...levels.slice(index + 1)];
+
+            if (isSafe(newLevels)) {
+                count++;
+                break;
+            }
+        }
+    }
+
+    return count;
 }
 
 main();
