@@ -5,9 +5,7 @@ if [ -z "$1" ]; then
     exit 1
 fi
 
-mkdir -p "src/$1"
-
-touch "src/$1/__init__.py"
+cp -r "src/template" "src/$1"
 
 echo "Run with:
-poetry run python src/$1/__init__.py"
+poetry run python3 -m src.$1"
