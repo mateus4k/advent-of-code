@@ -18,8 +18,30 @@ def phase_1(data=None):
 
     print(sum)
 
+def is_repeated_pattern(n: int) -> bool:
+    s = str(n)
+    L = len(s)
+
+    for size in range(1, L//2 + 1):
+        if L % size != 0:
+            continue
+
+        part = s[:size]
+        if part * (L // size) == s:
+            return True
+
+    return False
+
 def phase_2(data=None):
-    print(data)
+    sum = 0
+
+    for line in data:
+        start, end = map(int, line.split("-"))
+        for i in range(start, end + 1):
+            if is_repeated_pattern(i):
+                sum += i
+
+    print(sum)
 
 def main():
     base = Path(__file__).resolve().parent
@@ -28,4 +50,4 @@ def main():
     data = data.split(",")
 
     phase_1(data)
-    # phase_2(data)
+    phase_2(data)
